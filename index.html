@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRACTICE makes PERFECT!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .timer-display {
+            background: rgba(255,255,255,0.2);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .quiz-selector {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .quiz-selector label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2d3748;
+            font-size: 18px;
+        }
+
+        .quiz-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .quiz-btn {
+            padding: 15px 20px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 600;
+            color: #667eea;
+            text-align: center;
+        }
+
+        .quiz-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .quiz-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .name-input-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .name-input-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .name-input-section input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .name-input-section input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #2d3748;
+        }
+
+        .question-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: block;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 16px;
+        }
+
+        .text-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .text-answer-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+
+        .text-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .text-feedback.show {
+            display: block;
+        }
+
+        .text-feedback h4 {
+            color: #1976d2;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .text-feedback p {
+            color: #424242;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .reset-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .reset-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .copy-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .copy-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .copy-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .results.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .feedback {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            display: block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .button-container {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+
+            .quiz-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="toast" id="toast">Results copied to clipboard!</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1 id="quizTitle">MATH OPERATION PRACTICE</h1>
+            <p id="quizSubtitle">Select a quiz to begin</p>
+            <div class="timer-display hidden" id="timerDisplay">⏱️ 00:00:00</div>
+        </div>
+
+        <div class="content">
+            <div class="quiz-selector" id="quizSelector">
+                <label>Choose a Quiz:</label>
+                <div class="quiz-buttons" id="quizButtons"></div>
+            </div>
+
+            <div class="name-input-section hidden" id="nameSection">
+                <label for="studentName">Enter Your Name:</label>
+                <input type="text" id="studentName" placeholder="Your full name" autocomplete="name">
+            </div>
+
+            <div id="quizForm"></div>
+
+            <div class="button-container hidden" id="actionButtons">
+                <button type="button" class="submit-btn" onclick="submitQuiz()">Submit Quiz</button>
+                <button type="button" class="reset-btn" onclick="resetQuiz()">Reset</button>
+                <button type="button" class="copy-btn" id="copyBtn" onclick="copyResults()" disabled>Copy Results</button>
+            </div>
+
+            <div class="results" id="results">
+                <h2>Quiz Results: COPY & SEND TO TEACHER</h2>
+                <div class="score" id="scoreDisplay"></div>
+                <div class="feedback" id="feedback"></div>
+                <div class="explanation" id="explanation"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ADD YOUR QUIZZES HERE
+        // ============================================
+        // Each quiz should have a title and the MCQ text
+        // 
+        // FOR TEXT QUESTIONS: Add [FEEDBACK] on the next line after the question
+        // This feedback will show to students when they submit
+        //
+        // Format:
+        // "5. [TEXT] Your question here?
+        // [FEEDBACK] Sample answer or key points students should consider."
+        
+        const allQuizzes = [
+            {
+                title: "ADDITION & SUBTRACTION: 7.11.25",
+                subtitle: "1",
+                mcqText: `
+Grade 7 – Basic Arithmetic: Addition and Subtraction (30 MCQs)
+
+1. What is 7 + 5?
+A) 10
+B) 11
+C) **12**
+D) 13
+E) None of the above
+
+2. What is 9 - 4?
+A) 6
+B) **5**
+C) 4
+D) 7
+E) None of the above
+
+3. What is 8 + 6?
+A) 13
+B) 15
+C) **14**
+D) 12
+E) None of the above
+
+4. What is 12 - 7?
+A) 6
+B) 4
+C) **5**
+D) 3
+E) None of the above
+
+5. What is 15 + 8?
+A) **23**
+B) 24
+C) 22
+D) 25
+E) None of the above
+
+6. What is 17 - 9?
+A) 6
+B) **8**
+C) 9
+D) 10
+E) None of the above
+
+7. What is 4 + 13?
+A) 15
+B) **17**
+C) 14
+D) 16
+E) None of the above
+
+8. What is 9 + 11?
+A) 21
+B) 20
+C) **19**
+D) 22
+E) None of the above
+
+9. What is 18 - 7?
+A) **11**
+B) 10
+C) 12
+D) 13
+E) None of the above
+
+10. What is 5 + 19?
+A) **24**
+B) 23
+C) 25
+D) 22
+E) None of the above
+
+11. What is 14 - 9?
+A) 3
+B) 6
+C) **5**
+D) 7
+E) None of the above
+
+12. What is 3 + 16?
+A) **19**
+B) 20
+C) 18
+D) 17
+E) None of the above
+
+13. What is 9 + 9?
+A) 17
+B) 18
+C) **18**
+D) 19
+E) None of the above
+
+14. What is 10 - 4?
+A) **6**
+B) 7
+C) 5
+D) 8
+E) None of the above
+
+15. What is 7 + 14?
+A) **21**
+B) 22
+C) 20
+D) 19
+E) None of the above
+
+16. What is 13 - 8?
+A) 4
+B) **5**
+C) 6
+D) 3
+E) None of the above
+
+17. What is 6 + 15?
+A) **21**
+B) 20
+C) 22
+D) 19
+E) None of the above
+
+18. What is 19 - 9?
+A) **10**
+B) 9
+C) 8
+D) 11
+E) None of the above
+
+19. What is 11 + 7?
+A) 19
+B) **18**
+C) 20
+D) 17
+E) None of the above
+
+20. What is 16 - 8?
+A) **8**
+B) 7
+C) 6
+D) 9
+E) None of the above
+
+21. What is 9 + 12?
+A) 22
+B) **21**
+C) 20
+D) 23
+E) None of the above
+
+22. What is 14 - 5?
+A) 10
+B) **9**
+C) 8
+D) 11
+E) None of the above
+
+23. What is 8 + 17?
+A) 25
+B) **24**
+C) 23
+D) 26
+E) None of the above
+
+24. What is 20 - 9?
+A) 10
+B) 12
+C) **11**
+D) 9
+E) None of the above
+
+25. What is 5 + 15?
+A) 21
+B) **20**
+C) 19
+D) 22
+E) None of the above
+
+26. What is 11 - 3?
+A) 8
+B) **8**
+C) 7
+D) 9
+E) None of the above
+
+27. What is 18 + 6?
+A) 23
+B) **24**
+C) 25
+D) 22
+E) None of the above
+
+28. What is 17 - 8?
+A) 8
+B) 10
+C) **9**
+D) 7
+E) None of the above
+
+29. What is 4 + 9?
+A) 12
+B) **13**
+C) 14
+D) 11
+E) None of the above
+
+30. What is 15 - 7?
+A) **8**
+B) 9
+C) 10
+D) 7
+E) None of the above
+
+                `
+            },
+            {
+                title: "MUTIPLICATION & DIVIDE: 9.11.25",
+                subtitle: "1",
+                mcqText: `
+
+
+1. What is 6 × 7?
+A) 36
+B) 49
+C) 56
+D) 54
+E) 64
+F) **42**
+
+2. What is 9 ÷ 3?
+A) 6
+B) **3**
+C) 4
+D) 5
+E) 2
+F) None of the above
+
+3. What is 8 × 4?
+A) 36
+B) 40
+C) **32**
+D) 28
+E) 48
+F) None of the above
+
+4. What is 12 ÷ 4?
+A) 2
+B) **3**
+C) 4
+D) 6
+E) 8
+F) None of the above
+
+5. What is 9 × 9?
+A) 72
+B) 90
+C) **81**
+D) 64
+E) 99
+F) None of the above
+
+6. What is 15 ÷ 3?
+A) 4
+B) 6
+C) 3
+D) **5**
+E) 7
+F) None of the above
+
+7. What is 5 × 8?
+A) 35
+B) 30
+C) 25
+D) **40**
+E) 45
+F) None of the above
+
+8. What is 6 ÷ 2?
+A) 2
+B) **3**
+C) 4
+D) 6
+E) 5
+F) None of the above
+
+9. What is 7 × 3?
+A) 24
+B) 18
+C) 27
+D) 30
+E) **21**
+F) None of the above
+
+10. What is 8 ÷ 4?
+A) **2**
+B) 3
+C) 4
+D) 6
+E) 1
+F) None of the above
+
+11. What is 4 × 4?
+A) **16**
+B) 12
+C) 14
+D) 8
+E) 18
+F) None of the above
+
+12. What is 20 ÷ 5?
+A) 2
+B) **4**
+C) 6
+D) 5
+E) 3
+F) None of the above
+
+13. What is 3 × 9?
+A) 21
+B) 18
+C) 30
+D) 24
+E) **27**
+F) None of the above
+
+14. What is 16 ÷ 8?
+A) 1
+B) **2**
+C) 3
+D) 4
+E) 8
+F) None of the above
+
+15. What is 7 × 8?
+A) 49
+B) **56**
+C) 54
+D) 64
+E) 63
+F) None of the above
+
+16. What is 24 ÷ 6?
+A) **4**
+B) 6
+C) 3
+D) 5
+E) 8
+F) None of the above
+
+17. What is 5 × 6?
+A) 20
+B) 25
+C) 35
+D) **30**
+E) 40
+F) None of the above
+
+18. What is 18 ÷ 9?
+A) 3
+B) 4
+C) 1
+D) **2**
+E) 6
+F) None of the above
+
+19. What is 8 × 5?
+A) 35
+B) **40**
+C) 45
+D) 30
+E) 48
+F) None of the above
+
+20. What is 36 ÷ 9?
+A) 2
+B) 3
+C) **4**
+D) 5
+E) 6
+F) None of the above
+
+21. What is 9 × 7?
+A) 56
+B) **63**
+C) 72
+D) 54
+E) 49
+F) None of the above
+
+22. What is 42 ÷ 7?
+A) 8
+B) **6**
+C) 5
+D) 9
+E) 4
+F) None of the above
+
+23. What is 3 × 6?
+A) 12
+B) **18**
+C) 21
+D) 15
+E) 16
+F) None of the above
+
+24. What is 10 ÷ 2?
+A) 3
+B) 6
+C) **5**
+D) 8
+E) 7
+F) None of the above
+
+25. What is 4 × 9?
+A) 18
+B) 24
+C) **36**
+D) 30
+E) 27
+F) None of the above
+
+26. What is 27 ÷ 9?
+A) 2
+B) 4
+C) **3**
+D) 5
+E) 6
+F) None of the above
+
+27. What is 8 × 3?
+A) 16
+B) 18
+C) 28
+D) 21
+E) **24**
+F) None of the above
+
+28. What is 35 ÷ 5?
+A) **7**
+B) 5
+C) 6
+D) 4
+E) 8
+F) None of the above
+
+29. What is 2 × 9?
+A) 16
+B) 20
+C) 12
+D) **18**
+E) 22
+F) None of the above
+
+30. What is 49 ÷ 7?
+A) **7**
+B) 8
+C) 6
+D) 9
+E) 5
+F) None of the above
+
+                `
+            },
+           
+            {
+                title: "CRITICAL THINKING: 9.11.25",
+                subtitle: "1",
+                mcqText: `
+
+
+1. Which number is both a multiple of 3 and 5?
+A) 8  
+B) 10  
+C) **15**  
+D) 9  
+E) 12  
+
+2. What is the value of 8 × (4 + 3)?
+A) 56  
+B) 32  
+C) **56**  
+D) 52  
+E) 48  
+
+3. Which fraction is equal to ½?
+A) 1/3  
+B) 2/4  
+C) **3/6**  
+D) 4/5  
+E) None of the above  
+
+4. What is the missing number?  
+12, 15, 18, ___, 24  
+A) 19  
+B) 20  
+C) **21**  
+D) 22  
+E) 23  
+
+5. If a triangle has angles of 40° and 90°, what is the third angle?
+A) 40°  
+B) 50°  
+C) **50°**  
+D) 60°  
+E) 70°  
+
+6. The perimeter of a rectangle is 20 cm. If its length is 6 cm, what is its width?
+A) 4 cm  
+B) **4 cm**  
+C) 8 cm  
+D) 5 cm  
+E) None of the above  
+
+7. Which number is closest to 400 when rounded to the nearest ten?
+A) 392  
+B) 388  
+C) 401  
+D) **398**  
+E) 389  
+
+8. Which is the smallest fraction?
+A) 1/2  
+B) 2/3  
+C) **1/4**  
+D) 3/5  
+E) 1/3  
+
+9. 3 × 3 × 3 equals:
+A) 6  
+B) **27**  
+C) 9  
+D) 12  
+E) 18  
+
+10. Which of these is an even number?
+A) 19  
+B) 23  
+C) 35  
+D) **42**  
+E) 57  
+
+11. A pizza is cut into 8 equal slices. If you eat 3, what fraction is left?
+A) 4/8  
+B) **5/8**  
+C) 3/8  
+D) 6/8  
+E) None of the above  
+
+12. The sum of two numbers is 25. One number is 9. What is the other number?
+A) **16**  
+B) 15  
+C) 14  
+D) 13  
+E) 17  
+
+13. A shop sells 6 apples for R18. How much for 1 apple?
+A) R2  
+B) R2,50  
+C) **R3**  
+D) R2,75  
+E) None of the above  
+
+14. Which number has the greatest value?
+A) 3,05  
+B) 3,5  
+C) **3,50**  
+D) 3,045  
+E) 3,049  
+
+15. A square has a side of 9 cm. What is its area?
+A) **81 cm²**  
+B) 45 cm²  
+C) 18 cm²  
+D) 27 cm²  
+E) None of the above  
+
+16. What is the next odd number after 97?
+A) **99**  
+B) 98  
+C) 96  
+D) 100  
+E) None of the above  
+
+17. How many minutes are there in 3 hours?
+A) 60  
+B) 90  
+C) **180**  
+D) 120  
+E) 240  
+
+18. Which number is a prime number?
+A) 9  
+B) 15  
+C) 21  
+D) **13**  
+E) 20  
+
+19. Which decimal is equal to ¾?
+A) 0,25  
+B) 0,3  
+C) **0,75**  
+D) 0,8  
+E) None of the above  
+
+20. A farmer has 56 cows and sells 14. What fraction of cows remain?
+A) ¼  
+B) **¾**  
+C) ⅔  
+D) ½  
+E) None of the above  
+
+21. What is the difference between the largest and smallest 2-digit numbers?
+A) 88  
+B) 98  
+C) **89**  
+D) 90  
+E) 99  
+
+22. Which of these numbers is divisible by both 2 and 3?
+A) 12  
+B) 15  
+C) 18  
+D) **18**  
+E) 9  
+
+23. A die is rolled. What is the probability of getting a number greater than 4?
+A) **2/6**  
+B) 3/6  
+C) 1/6  
+D) 4/6  
+E) None of the above  
+
+24. What is the perimeter of a square with side 7 cm?
+A) **28 cm**  
+B) 21 cm  
+C) 14 cm  
+D) 35 cm  
+E) None of the above  
+
+25. Which of these numbers is an odd multiple of 5?
+A) 10  
+B) 20  
+C) 25  
+D) **35**  
+E) 40  
+
+26. The temperature increased from 12°C to 18°C. How many degrees did it rise?
+A) 4°C  
+B) 5°C  
+C) **6°C**  
+D) 8°C  
+E) None of the above  
+
+27. If each pen costs R6, how many pens can you buy for R48?
+A) 7  
+B) 6  
+C) **8**  
+D) 9  
+E) 10  
+
+28. A bag holds 5 red balls and 3 blue balls. What fraction of balls are red?
+A) 3/5  
+B) **5/8**  
+C) 3/8  
+D) ½  
+E) None of the above  
+
+29. Which shape has 4 equal sides and 4 right angles?
+A) Rectangle  
+B) **Square**  
+C) Rhombus  
+D) Trapezium  
+E) Circle  
+
+30. A number multiplied by 0 is always:
+A) The same number  
+B) 1  
+C) **0**  
+D) 10  
+E) None of the above  
+
+                `
+            },
+{
+                 title: "ADDITION & SUBTRACTION: 9.11.25",
+                subtitle: "2",
+                mcqText: `
+
+1. What is 7 + 2?
+A) 10
+B) **9**
+C) 11
+D) 8
+E) 12
+F) None of the above
+
+2. What is 9 - 3?
+A) 5
+B) 4
+C) **6**
+D) 7
+E) 3
+F) None of the above
+
+3. What is 8 + 5?
+A) **13**
+B) 14
+C) 12
+D) 15
+E) 10
+F) None of the above
+
+4. What is 6 - 4?
+A) **2**
+B) 3
+C) 1
+D) 4
+E) 0
+F) None of the above
+
+5. What is 4 + 7?
+A) 12
+B) 10
+C) **11**
+D) 9
+E) 13
+F) None of the above
+
+6. What is 9 - 8?
+A) 0
+B) 2
+C) 3
+D) **1**
+E) 4
+F) None of the above
+
+7. What is 3 + 6?
+A) 10
+B) 11
+C) 8
+D) **9**
+E) 7
+F) None of the above
+
+8. What is 5 - 2?
+A) 4
+B) 2
+C) **3**
+D) 5
+E) 1
+F) None of the above
+
+9. What is 2 + 8?
+A) **10**
+B) 9
+C) 7
+D) 11
+E) 12
+F) None of the above
+
+10. What is 7 - 3?
+A) 2
+B) 5
+C) **4**
+D) 3
+E) 6
+F) None of the above
+
+11. What is 4 + 4?
+A) 6
+B) **8**
+C) 7
+D) 9
+E) 10
+F) None of the above
+
+12. What is 8 - 5?
+A) 2
+B) 4
+C) 1
+D) **3**
+E) 5
+F) None of the above
+
+13. What is 1 + 9?
+A) 8
+B) 10
+C) **10**
+D) 11
+E) 9
+F) None of the above
+
+14. What is 5 + 3?
+A) **8**
+B) 7
+C) 6
+D) 9
+E) 10
+F) None of the above
+
+15. What is 6 - 2?
+A) 5
+B) **4**
+C) 3
+D) 2
+E) 6
+F) None of the above
+
+16. What is 3 + 5?
+A) 6
+B) 7
+C) 8
+D) **8**
+E) 9
+F) None of the above
+
+17. What is 9 - 6?
+A) 4
+B) **3**
+C) 2
+D) 5
+E) 6
+F) None of the above
+
+18. What is 2 + 4?
+A) 7
+B) 5
+C) **6**
+D) 8
+E) 9
+F) None of the above
+
+19. What is 7 - 2?
+A) **5**
+B) 6
+C) 4
+D) 7
+E) 8
+F) None of the above
+
+20. What is 5 + 4?
+A) 8
+B) 10
+C) 7
+D) **9**
+E) 6
+F) None of the above
+
+21. What is 8 - 7?
+A) **1**
+B) 2
+C) 3
+D) 0
+E) 4
+F) None of the above
+
+22. What is 6 + 3?
+A) 10
+B) 7
+C) 11
+D) 12
+E) **9**
+F) None of the above
+
+23. What is 9 - 5?
+A) 3
+B) 5
+C) **4**
+D) 2
+E) 6
+F) None of the above
+
+24. What is 2 + 6?
+A) 9
+B) **8**
+C) 7
+D) 6
+E) 10
+F) None of the above
+
+25. What is 4 - 3?
+A) 1
+B) **1**
+C) 2
+D) 3
+E) 0
+F) None of the above
+
+26. What is 3 + 4?
+A) 8
+B) 9
+C) **7**
+D) 10
+E) 6
+F) None of the above
+
+27. What is 5 - 1?
+A) **4**
+B) 5
+C) 3
+D) 2
+E) 6
+F) None of the above
+
+28. What is 1 + 8?
+A) 7
+B) 10
+C) **9**
+D) 8
+E) 11
+F) None of the above
+
+29. What is 6 + 2?
+A) 9
+B) 10
+C) 11
+D) **8**
+E) 7
+F) None of the above
+
+30. What is 7 - 4?
+A) 3
+B) 5
+C) **3**
+D) 2
+E) 4
+F) None of the above
+
+`
+}
+        ];
+        
+        // ============================================
+        // END OF QUIZZES - DON'T EDIT BELOW THIS LINE
+        // ============================================
+
+        let currentQuizIndex = null;
+        let quizResults = null;
+        let quizData = [];
+        let timerInterval = null;
+        let startTime = null;
+        let elapsedSeconds = 0;
+
+        function initializeApp() {
+            const quizButtons = document.getElementById('quizButtons');
+            quizButtons.innerHTML = '';
+            
+            allQuizzes.forEach((quiz, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-btn';
+                btn.textContent = quiz.title;
+                btn.onclick = () => selectQuiz(index);
+                quizButtons.appendChild(btn);
+            });
+        }
+
+        function selectQuiz(index) {
+            currentQuizIndex = index;
+            const selectedQuiz = allQuizzes[index];
+            
+            // Update header
+            document.getElementById('quizTitle').textContent = selectedQuiz.title;
+            document.getElementById('quizSubtitle').textContent = selectedQuiz.subtitle;
+            
+            // Show name section and action buttons
+            document.getElementById('nameSection').classList.remove('hidden');
+            document.getElementById('actionButtons').classList.remove('hidden');
+            document.getElementById('timerDisplay').classList.remove('hidden');
+            
+            // Highlight selected button
+            const buttons = document.querySelectorAll('.quiz-btn');
+            buttons.forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Generate quiz
+            generateQuiz(selectedQuiz.mcqText);
+        }
+
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const now = Date.now();
+            elapsedSeconds = Math.floor((now - startTime) / 1000);
+            
+            const hours = Math.floor(elapsedSeconds / 3600);
+            const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+            const seconds = elapsedSeconds % 60;
+            
+            const timeString = `⏱️ ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('timerDisplay').textContent = timeString;
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function formatElapsedTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            
+            if (hours > 0) {
+                return `${hours}h ${minutes}m ${secs}s`;
+            } else if (minutes > 0) {
+                return `${minutes}m ${secs}s`;
+            } else {
+                return `${secs}s`;
+            }
+        }
+
+        function parseMCQText(text) {
+            const questions = [];
+            const lines = text.trim().split('\n').filter(line => line.trim());
+            
+            let currentQuestion = null;
+            let currentOptions = [];
+            let correctIndex = -1;
+            let optionCount = 0;
+            let titleLine = '';
+            let currentImage = null;
+            let isTextQuestion = false;
+            let currentFeedback = null;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                if (i === 0 && !line.match(/^\d+\./)) {
+                    titleLine = line;
+                    continue;
+                }
+                
+                const imageMatch = line.match(/^\[IMAGE:\s*(.+)\]$/i);
+                if (imageMatch) {
+                    currentImage = imageMatch[1].trim();
+                    continue;
+                }
+                
+                const questionMatch = line.match(/^(\d+)\.\s*(.+)/);
+                if (questionMatch) {
+                    if (currentQuestion && (currentOptions.length > 0 || isTextQuestion)) {
+                        questions.push({
+                            question: currentQuestion,
+                            options: isTextQuestion ? [] : currentOptions,
+                            correct: correctIndex,
+                            image: null,
+                            isText: isTextQuestion,
+                            feedback: currentFeedback
+                        });
+                    }
+                    
+                    const questionText = questionMatch[2];
+                    const textMatch = questionText.match(/^\[TEXT\]\s*(.+)/i);
+                    
+                    if (textMatch) {
+                        currentQuestion = textMatch[1];
+                        currentOptions = [];
+                        correctIndex = -1;
+                        optionCount = 0;
+                        isTextQuestion = true;
+                        currentFeedback = null;
+                    } else {
+                        currentQuestion = questionText;
+                        currentOptions = [];
+                        correctIndex = -1;
+                        optionCount = 0;
+                        isTextQuestion = false;
+                        currentFeedback = null;
+                    }
+                    continue;
+                }
+                
+                // Check for feedback line
+                const feedbackMatch = line.match(/^\[FEEDBACK\]\s*(.+)/i);
+                if (feedbackMatch) {
+                    currentFeedback = feedbackMatch[1];
+                    continue;
+                }
+                
+                if (!isTextQuestion) {
+                    const optionMatch = line.match(/^([A-Za-z])\)\s*(.+)/);
+                    if (optionMatch && currentQuestion) {
+                        let optionText = optionMatch[2];
+                        
+                        const isBold = optionText.includes('**') || optionText.includes('***');
+                        const isUppercase = optionText === optionText.toUpperCase() && 
+                                           optionText !== optionText.toLowerCase() &&
+                                           !optionText.includes('**');
+                        const hasCorrectMarker = optionText.toUpperCase().includes('[CORRECT]') || 
+                                                optionText.toUpperCase().includes('(CORRECT)');
+                        
+                        if (isBold || hasCorrectMarker) {
+                            correctIndex = optionCount;
+                            optionText = optionText.replace(/\*\*/g, '').replace(/\*\*\*/g, '')
+                                                  .replace(/\[CORRECT\]/gi, '').replace(/\(CORRECT\)/gi, '').trim();
+                        } else if (isUppercase && optionText.length > 3) {
+                            correctIndex = optionCount;
+                        }
+                        
+                        currentOptions.push(optionText);
+                        optionCount++;
+                    }
+                }
+            }
+            
+            if (currentQuestion && (currentOptions.length > 0 || isTextQuestion)) {
+                questions.push({
+                    question: currentQuestion,
+                    options: currentOptions,
+                    correct: correctIndex,
+                    image: currentImage,
+                    isText: isTextQuestion
+                });
+            }
+            
+            let pendingImage = null;
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                const imageMatch = line.match(/^\[IMAGE:\s*(.+)\]$/i);
+                
+                if (imageMatch) {
+                    pendingImage = imageMatch[1].trim();
+                } else if (line.match(/^\d+\.\s*(.+)/)) {
+                    const questionMatch = line.match(/^\d+\.\s*(.+)/);
+                    let qText = questionMatch[1];
+                    
+                    const textMatch = qText.match(/^\[TEXT\]\s*(.+)/i);
+                    if (textMatch) {
+                        qText = textMatch[1];
+                    }
+                    
+                    const foundQ = questions.find(q => q.question === qText);
+                    if (foundQ && pendingImage) {
+                        foundQ.image = pendingImage;
+                        pendingImage = null;
+                    }
+                }
+            }
+            
+            return { title: titleLine, questions: questions };
+        }
+
+        function generateQuiz(mcqText) {
+            const parsed = parseMCQText(mcqText);
+            quizData = parsed.questions;
+            
+            const quizForm = document.getElementById('quizForm');
+            let html = '';
+
+            quizData.forEach((q, index) => {
+                const qNum = index + 1;
+                const qId = `q${qNum}`;
+                
+                html += `
+                    <div class="question-container">
+                        <div class="question-number">Question ${qNum} of ${quizData.length}</div>`;
+                
+                if (q.image) {
+                    html += `<img src="${q.image}" alt="Question ${qNum} image" class="question-image" onerror="this.style.display='none'">`;
+                }
+                
+                html += `<div class="question">${q.question}</div>`;
+                
+                if (q.isText) {
+                    html += `
+                        <label class="text-answer-label" for="${qId}_text">Your Answer:</label>
+                        <textarea class="text-input" id="${qId}_text" name="${qId}" placeholder="Type your answer here..."></textarea>
+                        <div class="text-feedback" id="${qId}_feedback"></div>`;
+                } else {
+                    html += `<div class="options">`;
+                    
+                    q.options.forEach((option, optIndex) => {
+                        const optId = `${qId}_${optIndex}`;
+                        html += `
+                            <div class="option" onclick="selectOption(this, '${qId}', ${optIndex})">
+                                <input type="radio" name="${qId}" value="${optIndex}" id="${optId}">
+                                <label for="${optId}">${option}</label>
+                            </div>`;
+                    });
+                    
+                    html += `</div>`;
+                }
+                
+                html += `</div>`;
+            });
+
+            quizForm.innerHTML = html;
+            
+            stopTimer();
+            elapsedSeconds = 0;
+            startTimer();
+            
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('copyBtn').disabled = true;
+        }
+
+        function selectOption(element, questionName, value) {
+            const radio = document.getElementById(`${questionName}_${value}`);
+            radio.checked = true;
+        }
+
+        function submitQuiz() {
+            if (currentQuizIndex === null) {
+                alert('Please select a quiz first.');
+                return;
+            }
+
+            const studentName = document.getElementById('studentName').value.trim();
+            
+            if (!studentName) {
+                alert('Please enter your name before submitting.');
+                document.getElementById('studentName').focus();
+                return;
+            }
+
+            stopTimer();
+            const timeTaken = elapsedSeconds;
+
+            let score = 0;
+            let totalQuestions = quizData.length;
+            let detailedResults = [];
+
+            quizData.forEach((q, index) => {
+                const qNum = index + 1;
+                const qId = `q${qNum}`;
+                
+                if (q.isText) {
+                    const textInput = document.getElementById(`${qId}_text`);
+                    const textAnswer = textInput ? textInput.value.trim() : '';
+                    
+                    // Show feedback if available
+                    if (q.feedback) {
+                        const feedbackDiv = document.getElementById(`${qId}_feedback`);
+                        if (feedbackDiv) {
+                            feedbackDiv.innerHTML = `<h4>💡 Sample Answer / Points to Consider:</h4><p>${q.feedback}</p>`;
+                            feedbackDiv.classList.add('show');
+                        }
+                    }
+                    
+                    detailedResults.push({
+                        question: q.question,
+                        answer: textAnswer || "No answer provided",
+                        feedback: q.feedback || null,
+                        isText: true
+                    });
+                } else {
+                    const selectedOption = document.querySelector(`input[name="${qId}"]:checked`);
+                    const options = document.querySelectorAll(`input[name="${qId}"]`);
+                    
+                    if (selectedOption) {
+                        const selectedIndex = parseInt(selectedOption.value);
+                        const isCorrect = selectedIndex === q.correct;
+                        
+                        if (isCorrect) {
+                            score++;
+                            selectedOption.parentElement.classList.add('correct');
+                        } else {
+                            selectedOption.parentElement.classList.add('incorrect');
+                        }
+                        
+                        options.forEach((opt, optIndex) => {
+                            if (optIndex === q.correct) {
+                                opt.parentElement.classList.add('correct');
+                            }
+                        });
+
+                        detailedResults.push({
+                            question: q.question,
+                            selected: q.options[selectedIndex],
+                            correct: q.options[q.correct],
+                            isCorrect: isCorrect,
+                            isText: false
+                        });
+                    } else {
+                        options.forEach((opt, optIndex) => {
+                            if (optIndex === q.correct) {
+                                opt.parentElement.classList.add('correct');
+                            }
+                        });
+
+                        detailedResults.push({
+                            question: q.question,
+                            selected: "No answer provided",
+                            correct: q.options[q.correct],
+                            isCorrect: false,
+                            isText: false
+                        });
+                    }
+                }
+            });
+
+            const mcqCount = quizData.filter(q => !q.isText).length;
+            const percentage = mcqCount > 0 ? Math.round((score / mcqCount) * 100) : 0;
+
+            const resultsDiv = document.getElementById('results');
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const feedback = document.getElementById('feedback');
+            const explanation = document.getElementById('explanation');
+
+            scoreDisplay.textContent = `${score} / ${mcqCount}`;
+            
+            let feedbackText = '';
+            if (percentage >= 90) {
+                feedbackText = '🎉 Outstanding! Excellent work!';
+            } else if (percentage >= 75) {
+                feedbackText = '👏 Great job! Strong understanding!';
+            } else if (percentage >= 60) {
+                feedbackText = '👍 Good effort! Keep studying!';
+            } else {
+                feedbackText = '📚 Keep practicing! Review and try again.';
+            }
+            
+            feedback.textContent = feedbackText;
+            
+            const textQCount = quizData.filter(q => q.isText).length;
+            let explanationText = `<strong>Your Score: ${percentage}%</strong><br>You answered ${score} out of ${mcqCount} multiple choice questions correctly.`;
+            if (textQCount > 0) {
+                explanationText += `<br>${textQCount} text question(s) included (not scored).`;
+            }
+            explanationText += `<br><strong>Time Taken: ${formatElapsedTime(timeTaken)}</strong>`;
+            explanation.innerHTML = explanationText;
+
+            resultsDiv.classList.add('show');
+            
+            quizResults = {
+                quizTitle: allQuizzes[currentQuizIndex].title,
+                name: studentName,
+                score: score,
+                total: mcqCount,
+                totalQuestions: totalQuestions,
+                percentage: percentage,
+                timeTaken: timeTaken,
+                timeFormatted: formatElapsedTime(timeTaken),
+                details: detailedResults
+            };
+
+            document.getElementById('copyBtn').disabled = false;
+
+            const inputs = document.querySelectorAll('input[type="radio"], textarea');
+            inputs.forEach(input => input.disabled = true);
+            document.getElementById('studentName').disabled = true;
+
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function resetQuiz() {
+            if (currentQuizIndex === null) return;
+            
+            stopTimer();
+            elapsedSeconds = 0;
+            document.getElementById('timerDisplay').textContent = '⏱️ 00:00:00';
+            
+            const inputs = document.querySelectorAll('input[type="radio"]');
+            inputs.forEach(input => {
+                input.checked = false;
+                input.disabled = false;
+            });
+            
+            const textInputs = document.querySelectorAll('textarea');
+            textInputs.forEach(input => {
+                input.value = '';
+                input.disabled = false;
+            });
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('studentName').disabled = false;
+            document.getElementById('copyBtn').disabled = true;
+            quizResults = null;
+
+            startTimer();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function copyResults() {
+            if (!quizResults) return;
+            
+            let resultText = `📝 ${quizResults.quizTitle.toUpperCase()} - RESULTS\n`;
+            resultText += `================================\n\n`;
+            resultText += `Student Name: ${quizResults.name}\n`;
+            resultText += `Score: ${quizResults.score}/${quizResults.total} MCQs (${quizResults.percentage}%)\n`;
+            resultText += `Total Questions: ${quizResults.totalQuestions}\n`;
+            resultText += `Time Taken: ${quizResults.timeFormatted}\n`;
+            resultText += `Date: ${new Date().toLocaleString()}\n\n`;
+            resultText += `DETAILED ANSWERS:\n`;
+            resultText += `================================\n\n`;
+
+            quizResults.details.forEach((result, index) => {
+                resultText += `Question ${index + 1}: ${result.question}\n`;
+                if (result.isText) {
+                    resultText += `Answer: ${result.answer}\n`;
+                    if (result.feedback) {
+                        resultText += `Sample Answer/Points: ${result.feedback}\n`;
+                    }
+                    resultText += `\n`;
+                } else {
+                    resultText += `Your answer: ${result.selected}\n`;
+                    resultText += `Correct answer: ${result.correct}\n`;
+                    resultText += `Status: ${result.isCorrect ? '✓ Correct' : '✗ Incorrect'}\n\n`;
+                }
+            });
+
+            resultText += `================================\n`;
+
+            navigator.clipboard.writeText(resultText).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }).catch(err => {
+                alert('Failed to copy results. Please try again.');
+                console.error('Copy failed:', err);
+            });
+        }
+
+        // Initialize the app on page load
+        initializeApp();
+    </script>
+</body>
+</html>
